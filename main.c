@@ -1,6 +1,14 @@
+#define GL_GLEXT_PROTOTYPES 1
+#include <GL/glcorearb.h>
 #include <GLFW/glfw3.h>
 #include <stdio.h>
 #include "example.h"
+
+static void
+error_callback(int error, const char* description)
+{
+  fprintf(stderr, "%d: %s\n", error, description);
+}
 
 int
 main(void)
@@ -12,11 +20,13 @@ main(void)
     return -1;
   }
 
+  glfwSetErrorCallback(error_callback);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
   glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
   glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+  glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 
-  window = glfwCreateWindow(640, 480, "Main", NULL, NULL);
+  window = glfwCreateWindow(640, 480, "GLFW", NULL, NULL);
   if (!window) {
     fprintf(stderr, "Unable to create window\n");
     glfwTerminate();
